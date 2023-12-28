@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <div className="bg-blue-200">
+    <div className="bg-gray-300">
       <div
         className="flex justify-between items-center
          max-w-6xl mx-auto p-3"

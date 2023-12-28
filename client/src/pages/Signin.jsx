@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Signin() {
   return (
-    <div>Signup</div>
+    <div>Signin</div>
   )
 }
