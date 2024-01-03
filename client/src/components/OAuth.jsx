@@ -1,4 +1,3 @@
-import React from "react";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { app } from "../firebase";
 import { useDispatch } from "react-redux";
@@ -19,7 +18,7 @@ export default function OAuth() {
         body: JSON.stringify({
           name: result.user.displayName,
           email: result.user.email,
-          photoUrl: result.user.photoURL,
+          photo: result.user.photoURL,
         }),
       });
       const data = await res.json();

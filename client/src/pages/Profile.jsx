@@ -10,6 +10,7 @@ export default function Profile() {
           src={currentUser.profilePicture}
           alt="profile"
           className="h-24 w-24 self-center cursor-pointer rounded-full object-cover mt-2"
+          referrerpolicy="no-referrer"
         />
         <input
           defaultValue={currentUser.username}
