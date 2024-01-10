@@ -12,6 +12,9 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
 } from '../redux/user/userSlice';
 
 export default function Profile() {
@@ -77,10 +80,27 @@ export default function Profile() {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error));
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
           ref={fileRef}
@@ -97,7 +117,7 @@ export default function Profile() {
         />
         <p className="text-sm self-center">
           {imageError ? (
-           <span className='text-red-700'>
+            <span className="text-red-700">
               Error uploading image (file size must be less than 2 MB)
             </span>
           ) : imagePercent > 0 && imagePercent < 100 ? (
@@ -115,7 +135,7 @@ export default function Profile() {
           placeholder="Username"
           className="bg-slate-100 
         rounded-lg p-3"
-            onChange={handleChange}
+          onChange={handleChange}
         />
         <input
           defaultValue={currentUser.email}
@@ -138,16 +158,21 @@ export default function Profile() {
           className="bg-slate-700 text-white rounded-lg p-3 uppercase
          hover:opacity-95 disabled:opacity-80"
         >
-          {loading ? 'Loading...' : 'Update'}
+          {loading ? "Loading..." : "Update"}
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Delete Account</span>
+        <span
+          onClick={handleDeleteAccount}
+          className="text-red-700 cursor-pointer"
+        >
+          Delete Account
+        </span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
-      <p className='text-red-700 mt-5'>{error && 'Something went wrong!'}</p>
-      <p className='text-green-700 mt-5'>
-        {updateSuccess && 'User is updated successfully!'}
+      <p className="text-red-700 mt-5">{error && "Something went wrong!"}</p>
+      <p className="text-green-700 mt-5">
+        {updateSuccess && "User is updated successfully!"}
       </p>
     </div>
   );
